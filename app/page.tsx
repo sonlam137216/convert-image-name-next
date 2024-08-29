@@ -30,6 +30,8 @@ export default function Web() {
     const transformedText = e.target.value.normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
+    .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+    .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
     .replace('-', '')
     .replace(/\s{2,}/g, ' ').split(' ').join('-')
     setInputText(transformedText);
