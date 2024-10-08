@@ -1,28 +1,12 @@
 "use client";
-// import { Metadata } from "next"
 import { useState } from "react";
-
-// export const metadata: Metadata = {
-//   title: "Next.js Image Path Generation",
-//   twitter: {
-//     card: "summary_large_image",
-//   },
-//   openGraph: {
-//     url: "https://next-enterprise.vercel.app/",
-//     images: [
-//       {
-//         width: 1200,
-//         height: 630,
-//         url: "https://raw.githubusercontent.com/Blazity/next-enterprise/main/.github/assets/project-logo.png",
-//       },
-//     ],
-//   },
-// }
 
 export default function Web() {
 
   // State to hold the input value
   const [inputText, setInputText] = useState('');
+  // State to hold button text
+  const [buttonText, setButtonText] = useState('Copy Text');
 
   // Function to handle input change
   const handleInputChange = (e: any) => {
@@ -32,6 +16,14 @@ export default function Web() {
     .toLowerCase()
     .replace(/đ/g, 'd').replace(/Đ/g, 'D')
     .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
+    .replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+    .replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
+    .replace(/ì|í|ị|ỉ|ĩ/g, "i")
+    .replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+    .replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+    .replace(/đ/g, "d")
+    .replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "") // Huyền sắc hỏi ngã nặng 
+    .replace(/\u02C6|\u0306|\u031B/g, "")
     .replace('-', '')
     .replace(/\s{2,}/g, ' ').split(' ').join('-')
     setInputText(transformedText);
@@ -40,7 +32,8 @@ export default function Web() {
   const handleCopyClick = () => {
     navigator.clipboard.writeText(inputText)
       .then(() => {
-        alert("Text copied to clipboard!");
+        setButtonText('Copied!');  // Update button text to "Copied!"
+        setTimeout(() => setButtonText('Copy Text'), 2000); // Reset the button text after 2 seconds
       })
       .catch((err) => {
         console.error("Failed to copy text: ", err);
@@ -75,7 +68,7 @@ export default function Web() {
           <button 
             onClick={handleCopyClick} 
             className="mt-4 px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">
-            Copy Text
+            {buttonText} {/* Button text updates dynamically */}
           </button>
           </div>
         </div>
